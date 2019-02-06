@@ -72,7 +72,7 @@ def update_db(username,champ,new_info):
     f.write(s+"END")
     f.close()
 
-@app.route("/")
+@app.route("/",methods=["GET","POST"])
 def index():
     global profile
     if "username" in session:
@@ -81,6 +81,20 @@ def index():
         	profile["/admin/index/"] = "Admin"
     else:
     	profile = {"/register/":"Register","/login/":"Login"}
+    if request.method == "POST":
+    	w = request.form["w_name"]
+    	try:
+    		with open("./uploads/workshops/{}/participants".format(w),"r") as f:
+    			s = f.read()
+    	except:
+    		s = ""
+    	participant = {}
+    	for i in ["nom","prenom","email"]:
+    		participant[i] = request.form[i]
+    	s = "END".join([dumps(participant),s])
+    	with open("./uploads/workshops/{}/participants".format(w),"w") as f:
+    		f.write(s)
+    	flash("registered succesfully","succes")
     return render_template("index.html",profile = profile)
 
 @app.route("/login/",methods=["GET","POST"])

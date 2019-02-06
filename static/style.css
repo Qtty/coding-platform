@@ -448,3 +448,18 @@ img {vertical-align: middle;}
   height: 100%;
 }
 
+.reg
+{
+  display: block;
+  margin: auto;
+  margin-top: 2%;
+}
+
+.text input
+{
+  background-color: inherit;
+  border: none;
+  border-bottom: 1px solid black;
+  width: 40%;
+  margin-bottom: 2%;
+}

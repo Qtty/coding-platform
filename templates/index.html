@@ -67,6 +67,17 @@
                 <div class="text">{{ d[j] }}</div>
               {% endif %}
             {% endfor %}
+            {% if x == "Workshops" %}
+            <div class="text" />
+              <form action="" method="post">
+                <input type="text" name="nom" placeholder="Nom" required />
+                <input type="text" name="prenom" placeholder="Prenom" required />
+                <input type="email" name="email" placeholder="Email" required />
+                <input type="text" name="w_name" value="{{ i }}" hidden />
+                <button type="submit" class="reg">Register</button>
+              </form>
+            </div>
+            {% endif %}
           </div>
         {% endfor %}
 

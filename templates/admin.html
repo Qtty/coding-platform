@@ -1,0 +1,18 @@
+{% extends "skeleton.html" %}
+{% from "macros.html" import styled_form %}
+
+{% block title %}Open Minds Club{% endblock %}
+<section>
+  {% block sidebar %}
+    <aside >
+      <ul>
+        {% for i in l %}
+          <li><a href="/admin/{{ l[i] }}">{{ i }}</a></li>
+        {% endfor %}
+      </ul>
+    </aside>
+  {% endblock %}
+
+  {% block form %}
+  {% endblock %}
+</section>

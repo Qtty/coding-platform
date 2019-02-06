@@ -1,0 +1,8 @@
+{% extends "admin.html" %}
+{% from "macros.html" import styled_form %}
+
+  {% block form %}
+  <article>
+      {{ styled_form(opts,title,ls) }}
+  </article>
+  {% endblock %}

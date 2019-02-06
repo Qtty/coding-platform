@@ -1,0 +1,10 @@
+{% extends "skeleton.html" %}
+{% from "macros.html" import styled_form,flash %}
+
+{% block title %}
+  Open Minds Club
+{% endblock %}
+
+{% block form %}
+  {{ styled_form(["Nom","Prenom","Username","Specialite","annee","Email","Matricule","Password"],required = "required",h = "Register") }}
+{% endblock %}

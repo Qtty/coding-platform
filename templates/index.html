@@ -1,0 +1,180 @@
+{% extends "skeleton.html" %}
+{% from "macros.html" import flash %}
+
+{% block title %}
+  Open Minds Club
+{% endblock %}
+
+{% block onload %}toggle_visibility('Events','Workshops',1);{% endblock %}
+
+{% block style %}
+{% endblock %}
+{% set names = jloads("static/index/desc") %}
+{% block section %}
+
+<section >
+  <img src="{{ url_for("static",filename="img/logo.png") }}" alt="OMC Coding Platform" width="200px" height="150px" />
+
+  <p>
+    <div style="width: 50%;margin: auto;">
+      <h1 style="text-shadow: 1px 1px black;">Ce Qui Ne Se Partage Pas Se Perd</h1>
+      {{ names["description"] }}
+    </div>
+    {% set m = {"https://www.facebook.com":"facebook","https://www.github.com/Qtty":"github","https://www.slack.com":"slack"} %}
+    {% for i in m %}
+      <a href="{{ i }}" />
+        <div class="container">
+          <img class="bimage"src="{{ url_for("static",filename="img/{}.png".format(m[i])) }}" alt="{{ m[i] }}" width="120px" height="120px" />
+          <div class="overlay">
+            <img class="bimage" src="{{ url_for("static",filename="img/{}1.png".format(m[i])) }}" alt="{{ m[i] }}" width="120px" height="120px" id="hover"/>
+          </div>
+        </div>
+      </a>
+    {% endfor %}
+  </p>
+</section>
+{% endblock %}
+
+{% block activities %}
+<div id="activities">
+  {% set tmp = 1 %}
+  <section>
+    <h1>Activities</h1>
+    {% set o = {"Events":"posts","Workshops":"workshops"} %}
+    {% set tmp = ["Events","Workshops","Events"] %}
+    <div id="acti">
+      {% for n,i in enum(tmp[:-1]) %}
+        {% if n == 0 %}
+          {% set b = 1 %}
+        {% else %}
+          {% set b = list("./uploads/{}/".format(o[tmp[n-1]]))|length + 1 %}
+        {% endif %}
+        <a id="{{ i }}_bt" onclick="toggle_visibility('{{ i }}','{{ tmp[n+1] }}',{{ b }});">{{ i }}</a>
+      {% endfor %}
+    </div>
+  </section>
+  {% for n,x in enum(tmp[:2]) %}
+    <div id="{{ x }}">
+      <div class="slideshow-container">
+        {% for n,i in enum(list("./uploads/{}/".format(o[x]))) %}
+
+          <div class="mySlides fade">
+            <h1>{{ i }}</h1>
+            <div id="im"><img src="{{ url_for('uploaded_file',filename='{}/{}/{}.png'.format(o[x],i,i)) }}" width="200px"height="200px" id="ig"/></div>
+            {% set d = jloads("./uploads/{}/{}/desc".format(o[x],i)) %}
+            {% for j in d %}
+              {% if j != "title" %}
+                <div class="text">{{ d[j] }}</div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endfor %}
+
+        <!-- Next and previous buttons -->
+        {% if n == 0 %}
+          <a class="prev" onclick="plusSlides(-1,1,{{ list("./uploads/{}/".format(o[x]))|length }})">&#10094;</a>
+          <a class="next" onclick="plusSlides(1,1,{{ list("./uploads/{}/".format(o[x]))|length }})">&#10095;</a>
+        {% else %}
+          <a class="prev" onclick="plusSlides(-1,{{ list("./uploads/{}/".format(o[tmp[n+1]]))|length + 1 }},{{ list("./uploads/{}/".format(o[tmp[n+1]]))|length + list("./uploads/{}/".format(o[x]))|length }})">&#10094;</a>
+          <a class="next" onclick="plusSlides(1,{{ list("./uploads/{}/".format(o[tmp[n+1]]))|length + 1 }},{{ list("./uploads/{}/".format(o[tmp[n+1]]))|length + list("./uploads/{}/".format(o[x]))|length }})">&#10095;</a>
+        {% endif %}
+    </div>
+    <br>
+
+    <!-- The dots/circles -->
+    <div style="text-align:center">
+      {% for i in range(list("./uploads/{}/".format(o[x]))|length) %}
+        {% if n == 0 %}
+          <span class="dot" onclick="currentSlide({{ i + 1 }})"></span>
+        {% else %}
+          <span class="dot" onclick="currentSlide({{ i + 1 + list("./uploads/{}/".format(o[tmp[n+1]]))|length }})"></span>
+        {% endif %}
+      {% endfor %}
+
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<div id="council">
+  <h1>The Club Council 2018/2019</h1>
+  {% for i in ["President","Vice President","Secretary","Vice Secretary"] %}
+    {% if i.lower()+" name" in names %}
+      {% if i == "President" %}
+        <div id="ex" class="member">
+      {% else %}
+        <div class="member">
+      {% endif %}
+        <h2>{{ names[i.lower()+" name"].split(" ")[0] }}</h2>
+        <h2>{{ ' '.join(names[i.lower()+" name"].split(" ")[1:]) }}</h2>
+        <h4>{{ i }}</h4>
+        <div class="container">
+          <img class="bimage"src="{{ url_for("static",filename="index/{} First Cover.png".format(i)) }}" alt="OMC Council" width="200px" height="200px" />
+          <div class="overlay">
+            <img class="bimage" src="{{ url_for("static",filename="index/{} Last Cover.png".format(i)) }}" alt="OMC Council" width="200px" height="200px" id="hover"/>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+var slideIndex = 1;
+showSlides(slideIndex);
+
+function plusSlides(n,min,max) {
+  slideIndex += n;
+  if (slideIndex > max || slideIndex < min)
+  {
+    if(document.getElementById("Events").style.display == "none")
+    {
+      toggle_visibility("Events","Workshops",-1);
+    }
+    else
+    {
+      toggle_visibility("Workshops","Events",-1);
+    }
+  }
+  showSlides(slideIndex);
+}
+
+function currentSlide(n) {
+  slideIndex = n;
+  showSlides(slideIndex);
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("dot");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+}
+
+function toggle_visibility(id,id1,c)
+{
+       var e = document.getElementById(id);
+       var a = document.getElementById(id1);
+       var e1 = document.getElementById(id.concat("_bt"));
+       var a1 = document.getElementById(id1.concat("_bt"));
+       if(c != -1) {currentSlide(c)}
+       if(e.style.display == 'none')
+          e.style.display = 'block';
+          a.style.display = 'none';
+          e1.style.borderBottom = '3px solid black';
+          a1.style.borderBottom = "none";
+      }
+</script>
+{% endblock %}

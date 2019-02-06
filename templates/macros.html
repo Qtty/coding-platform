@@ -1,0 +1,80 @@
+{% macro form(l,required = "") %}
+  <form action="" method="post" enctype="multipart/form-data">
+    {% for i in l %}
+      <div class="infos">
+      <label for="{{ i }}" >{{ i }}:</br></label>
+        {% if "Password" in i %}
+          {% set t = "password" %}
+        {% elif i == "Remember Me" %}
+          {% set t = "checkbox" %}
+        {% elif "Email" in i %}
+          {% set t = "email" %}
+        {% elif i == "Matricule" %}
+          {% set t = "number" %}
+        {% elif "Cover" in i %}
+          {% set t = "file" %}
+        {% else %}
+          {% set t = "text" %}
+        {% endif %}
+        {% if i == "Description" %}
+          <textarea name="{{ i|lower }}" {{ required }}></textarea>
+        {% elif t == "checkbox" %}
+          <input type="{{ t }}" name="{{ i|lower }}" />
+        {% else %}
+          <input type="{{ t }}" name="{{ i|lower }}" {{ required }}/>
+        {% endif %}
+      </div>
+    {% endfor %}
+    <div id="submit">
+      <input type="submit" value="Submit" />
+    </div>
+  </form>
+{% endmacro %}
+
+{% macro styled_form(l,h = "",ls = "",required = "") %}
+  <div id="form">
+    <div id="logo1">
+      <img src="{{ url_for("static",filename="img/logo.png") }}" alt="OMC Coding Platform" width="100px" height="100px" />
+      <p>Ce Qui Ne Se Partage Pas Se Perd</p>
+      {% if h != "" %}
+      <h1>{{ h }}</h1>
+      {% endif %}
+    </div>
+    {{ form(l,required) }}
+    {{ flash() }}
+    {% if request.path == "/admin/shell/" %}
+      <ul>
+        {% for i in ls.split("\n") %}
+          {% if i != "" %}
+            <li>{{ i }}</li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    {% endif %}
+    {% if request.path == "/login/" %}
+    <nav id="login_opt">
+      <a href="/reset/" id="pw">Forgot Your Password</a>
+      <a href="/register/" id="ac">Create An Account</a>
+    </nav>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{% macro flash() %}
+  {% set me = get_flashed_messages(category_filter=["error"]) %}
+  {% set ms = get_flashed_messages(category_filter=["succes"]) %}
+  {% for i in [me,ms] %}
+    {% if i %}
+      {% if i == me %}
+        {% set clr = "red" %}
+      {% else %}
+        {% set clr = "green" %}
+      {% endif %}
+      <ul>
+      {% for j in i %}
+        <li style="color:{{ clr }}" >{{ j }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endfor %}
+{% endmacro %}

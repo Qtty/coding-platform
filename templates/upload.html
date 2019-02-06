@@ -1,0 +1,10 @@
+{% extends "skeleton.html" %}
+
+{% block onload %}document.getElementById('browse').click(); document.getElementById('submit').click();{% endblock %}
+
+{% block form %}
+	<form method="post" enctype="multipart/form-data">
+		<p><input type="file" name="image" id="browse"/>
+		<input type="submit" id="submit" value="submit"/>
+	</form>
+{% endblock %}

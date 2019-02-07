@@ -7,11 +7,14 @@ body
 
 header
 {
+  z-index: 12;
   width: 100%;
-  position: absolute;
+  height: 5%;
+  position: fixed;
   top: 0;
   left: 0;
   background-color: #191C25;
+  overflow: hidden;
 }
 
 img
@@ -43,14 +46,14 @@ img
 
 #static
 {
- margin-left: 3%; 
+ margin-left: 3%;
 }
 
 #profile
 {
   position: absolute;
   right: 0;
-  
+
 }
 
 #profile img

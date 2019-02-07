@@ -11,6 +11,14 @@ from time import time,sleep
 from werkzeug.utils import secure_filename
 from werkzeug.security import safe_join
 from PIL import Image
+from flask_pymongo import PyMongo
+app = Flask(__name__)
+app.config["MONGO_DBNAME"]='cluster0'
+app.config["MONGO_URI"] = "mongodb://admin-imad:test123@ds125362.mlab.com:25362/cluster0"
+mongo = PyMongo(app)
+users=mongo.db.users
+posts=mongo.db.posts
+work=mongo.db.workshop
 
 app = Flask(__name__)
 app.secret_key="key"
@@ -114,9 +122,9 @@ def login():
 			session.permanent = True
 		x = {"username":us,"password":pw}
 		res = rd(x)
-		if res[0]:
+		if users.find_one(x) is not None:
 			for i in ["nom","prenom","username","specialite","annee","email","matricule","password"]:
-				session[i] = res[1]	[i]
+				session[i] = users.find_one(x)[i] #a optimiser probleme d'indentation te3 zmer couldn't do much 
 			flash("connected succesfully","succes")
 			return redirect(url_for("index"))
 		else:
@@ -131,9 +139,10 @@ def register():
 	if request.method == "POST":
 		for i in ["nom","prenom","username","specialite","annee","email","matricule","password"]:
 			info[i] = request.form[i]
+        # info["admin"]='False'
 		info["date"] = datetime.utcfromtimestamp(int(time())).strftime('%Y-%m-%d %H:%M:%S')
-		x = dumps(info)
-		wr(x)
+		#x = dumps(info)
+		users.insert_one(info)
 		return redirect(url_for("index"))
 	return render_template("register.html",profile = profile)
 

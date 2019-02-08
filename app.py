@@ -19,8 +19,6 @@ mongo = PyMongo(app)
 users=mongo.db.users
 posts=mongo.db.posts
 works=mongo.db.workshop
-
-app = Flask(__name__)
 app.secret_key="key"
 app.config["uploads"] = "./uploads/"
 profile = {"/register/":"Register","/login/":"Login"}
@@ -200,8 +198,6 @@ def execute(opt = ""):
                             flash("Uploaded succesfully","succes")
                         else:
                             desc[i.lower()] = request.form[i.lower()]
-                    with open(app.config['uploads']+"{}s/{}/desc".format(opt,request.form["title"]),"w") as d:
-                        d.write(dumps(desc))
                     desc["cover_pictur"]=path+'/'+nf
                     if opt == "post" :
                         posts.insert_one(desc)
@@ -365,7 +361,33 @@ def utility_processor():
 			tmp = loads(f.read())
 		return tmp
 	return dict(jloads=jloads)
+@app.context_processor
+def utility_processor():
+    def dbloads(col,query):
+        if col== 'posts' :
+            return posts.find_one({"title":query})
+        elif col == "workshops":
+            return works.find_one({"title":query})
+    return dict(dbloads=dbloads)
+	
+@app.context_processor
+def utility_processor():
+    def iterate_db(col,field):
+        tab=[]
+        if col=='users':
+            for c in users.find({},{field:1}):
+                tab.append(c[field])
+        if col=='posts':
+            for c in posts.find({},{field:1}):
+                tab.append(c[field])
+        if col =='workshop':
+            for c in works.find({},{field:1}):
+                tab.append(c[field])
+        return tab
+    return dict(iterate_db=iterate_db)
+
 
 if __name__=="__main__":
 	port = int(os.environ.get("PORT", 5000))
 	app.run(debug=True,host='0.0.0.0', port=port)
+

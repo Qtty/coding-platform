@@ -61,9 +61,9 @@
           <div class="mySlides fade">
             <h1>{{ i }}</h1>
             <div id="im"><img src="{{ url_for('uploaded_file',filename='{}/{}/{}.png'.format(o[x],i,i)) }}" width="200px"height="200px" id="ig"/></div>
-            {% set d = jloads("./uploads/{}/{}/desc".format(o[x],i)) %}
+            {% set d = dbloads(o[x],i) %}
             {% for j in d %}
-              {% if j != "title" %}
+              {% if j != "title" and j != "cover_pictur" and j!="_id" %}
                 <div class="text">{{ d[j] }}</div>
               {% endif %}
             {% endfor %}
@@ -81,7 +81,7 @@
           </div>
         {% endfor %}
 
-        <!-- Next and previous buttons -->
+        
         {% if n == 0 %}
           <a class="prev" onclick="plusSlides(-1,1,{{ list("./uploads/{}/".format(o[x]))|length }})">&#10094;</a>
           <a class="next" onclick="plusSlides(1,1,{{ list("./uploads/{}/".format(o[x]))|length }})">&#10095;</a>
@@ -91,8 +91,8 @@
         {% endif %}
     </div>
     <br>
-
-    <!-- The dots/circles -->
+  
+    
     <div style="text-align:center">
       {% for i in range(list("./uploads/{}/".format(o[x]))|length) %}
         {% if n == 0 %}

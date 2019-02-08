@@ -18,7 +18,7 @@ app.config["MONGO_URI"] = "mongodb://admin-imad:test123@ds125362.mlab.com:25362/
 mongo = PyMongo(app)
 users=mongo.db.users
 posts=mongo.db.posts
-work=mongo.db.workshop
+works=mongo.db.workshop
 
 app = Flask(__name__)
 app.secret_key="key"
@@ -69,7 +69,7 @@ def index():
     global profile
     if "username" in session:
     	profile = {"/disconnect/":"Disconnect","/profile.{}/".format(session["username"]):session["username"]}
-    	if (session["username"] == "qtty"):
+    	if (session["admin"] == "True"):
         	profile["/admin/index/"] = "Admin"
     else:
     	profile = {"/register/":"Register","/login/":"Login"}
@@ -123,7 +123,15 @@ def register():
 	if request.method == "POST":
 		for i in ["nom","prenom","username","specialite","annee","email","matricule","password"]:
 			info[i] = request.form[i]
-
+		if users.find_one({'username':info['username']}) :
+			flash("username already taken","error")
+			return render_template("register.html",profile=profile)
+		if users.find_one({'email':info['email']}) :
+			flash("email already exist","error")
+			return render_template("register.html",profile=profile)
+		if users.find_one({'matricule':info['matricule']}) :
+			flash("this matricule is already used ","error")
+			return render_template("register.html",profile=profile)
 		info["admin"]='False'
 		info["date"] = datetime.utcfromtimestamp(int(time())).strftime('%Y-%m-%d %H:%M:%S')
 		users.insert_one(info)
@@ -147,7 +155,6 @@ def execute(opt = ""):
         li += [i+" Name",i+" First Cover",i+" Last Cover"]
     li.append("Update The Index Page")
     c_opt["index"] = li
-
     if ("username" in session)and(session["admin"] == "True"):
         if request.method == "POST":
             if opt == "shell":
@@ -180,7 +187,8 @@ def execute(opt = ""):
 		                with open("static/index/{}".format("desc"),"w") as d:
 	                		d.write(dumps(desc))
                 else:
-                    os.mkdir("./uploads/{}s/{}".format(opt,request.form["title"]))
+                    path="./uploads/{}s/{}".format(opt,request.form["title"])					
+                    os.mkdir(path)
                     for i in c_opt[opt][:-1]:
                         if "Cover" in i:
                             f = request.files[i.lower()]
@@ -192,6 +200,11 @@ def execute(opt = ""):
                             desc[i.lower()] = request.form[i.lower()]
                     with open(app.config['uploads']+"{}s/{}/desc".format(opt,request.form["title"]),"w") as d:
                         d.write(dumps(desc))
+                    desc["cover_pictur"]=path+'/'+nf
+                    if opt == "post" :
+                        posts.insert_one(desc)
+                    else:
+                        works.insert_one(desc)
                 return render_template("ter.html",profile = profile,l = l,opts= c_opt[opt][:-1],title=c_opt[opt][-1],ls = "")
         else:
             return render_template("ter.html",profile = profile,l = l,opts= c_opt[opt][:-1],title=c_opt[opt][-1],ls = "")

@@ -1,0 +1,42 @@
+{% extends "skeleton.html" %}
+{% from "macros.html" import styled_form %}
+<section>
+{% block sidebar %}
+  <aside >
+    <div id="pr_pic">
+      <img src="{{ url_for("uploaded_file",filename=ver_img(usr_info["username"])) }}" width="150px" height="150px" />
+    </div>
+    <h3>{{ session["nom"]+" "+session["prenom"] }}</h3>
+    <h4>{{ "@"+session["username"] }}</h4>
+    <hr>
+    <h3>Change Profile Picture</h3>
+    <ul>
+          <li><a href="/profile.{{ session["username"] }}/chp">Change Photo</a></li>
+          <li><a href="/profile.{{ session["username"] }}/dlp">Delete Photo</a></li>
+    </ul>
+      <hr>
+      <h3>Personal Settings</h3>
+        <ul>
+          <li><a href="/profile.{{ session["username"] }}/prf">Change Profile</a></li>
+        </ul>
+      <hr>
+      <h3>Account Setting</h3>
+      <ul>
+        <li><a href="/profile.{{ session["username"] }}/pass">Change Password</a></li>
+        <li><a href="/profile.{{ session["username"] }}/eas">Email And Username</a></li>
+      </ul>
+
+  </aside>
+{% endblock %}
+
+{% block form %}
+  {% if c %}
+      <article>
+        {{ styled_form(l,title) }}
+        {% if ("profile" in request.path)and("eas" in request.path) %}
+        {{ styled_form(["New Email","Confirm Email"],"Change Your Email") }}
+        {% endif %}
+      </article>
+  {% endif %}
+{% endblock %}
+</section>

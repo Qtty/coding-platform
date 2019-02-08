@@ -1,0 +1,63 @@
+{% from "macros.html" import flash %}
+
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>{% block title %}Open Minds Club{% endblock %}</title>
+		<link rel="icon" type="png" href="{{ url_for("static",filename="img/logo.png") }}" />
+		{% for i in ["Ubuntu","Quicksand"] %}
+			<link href="https://fonts.googleapis.com/css?family={{ i }}" rel="stylesheet"> 
+		{% endfor %}
+		<link href="{{ url_for("static",filename="style.css") }}" rel="stylesheet" type="text/css" />
+		{% block style %}{% endblock %}
+	</head>
+
+	<body onload="{% block onload %}{% endblock %}">
+		<header>
+			<a href="/" id="logo">
+				<img src="{{ url_for("static",filename="img/logo.png") }}" alt="OMC Coding Platform" width="70px" />
+			</a>
+			<div id="header">
+				<nav id="static">
+					{% set static = {"/":"Home","/users/":"Users","/scoreboard/":"Scoreboard","/challenges/":"Challenges"} %}
+					{% for i in static %}
+						<a href="{{ i }}" >{{ static[i] }}</a>
+					{% endfor %}
+				</nav>
+
+				<nav id="profile">
+					{% for i in profile %}
+						{% if "profile" in i %}
+							<a href="{{ i }}" >{{ profile[i] }}</a>
+						{% else %}
+							<a href="{{ i }}">{{ profile[i] }}</a>
+						{% endif %}
+					{% endfor %}
+				</nav>
+			</div>
+		</header>
+
+		{% block sidebar %}
+		{% endblock %}
+
+		{% block section %}
+		{% endblock %}
+
+		{% block activities %}
+		{% endblock %}		
+
+		{% block form %}
+		{% endblock %}
+
+		{% block flash %}
+			{{ flash() }}
+		{% endblock %}
+		{% block script %}{% endblock %}
+
+		<!-- scripts -->
+		<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	</body>
+</html>

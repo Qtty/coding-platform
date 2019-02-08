@@ -1,0 +1,468 @@
+body
+{
+  background-color: #1D242B;
+  font-family: "Ubuntu",sans-serif;
+  background: url("img/back.png") fixed;
+}
+
+header
+{
+  z-index: 12;
+  width: 100%;
+  height: 5%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #191C25;
+  overflow: hidden;
+}
+
+img
+{
+  max-width: 100%;
+  height: auto;
+}
+
+#logo
+{
+  display: inline-block;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+#header
+{
+  width: 90%;
+  margin-top: 0px;
+  display: inline-block;
+  position: relative;
+}
+
+#static,#profile
+{
+  display: inline-block;
+}
+
+#static
+{
+ margin-left: 3%;
+}
+
+#profile
+{
+  position: absolute;
+  right: 0;
+
+}
+
+#profile img
+{
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+nav a
+{
+  padding-right: 15px;
+  color: white;
+  text-decoration: none;
+}
+
+nav a:hover
+{
+  color: black;
+  text-decoration: underline;
+}
+
+section
+{
+  margin-top: 100px;
+  text-align: center;
+  font-size: 20px;
+  font-style: italic;
+}
+
+section a
+{
+  display: inline-block;
+  margin-top: 20px;
+  margin-right: 20px;
+}
+
+#form
+{
+  width: 50%;
+  margin: auto;
+  margin-top: 100px;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  box-shadow: 2px 2px 2px 2px black;
+}
+#logo1
+{
+  text-align: center;
+}
+
+#logo1 p
+{
+    color: black;
+    font-style: italic;
+    font-size: 20px;
+    margin-top: 0px;
+    text-shadow: 1px 1px black;
+}
+
+.infos
+{
+  margin-top: 10px;
+  margin-bottom: 20px;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  width: 70%;
+  padding: 15px;
+  border: 1px solid black;
+  border-radius: 19px;
+  box-shadow: 2px 2px 2px 2px black;
+}
+
+.infos input
+{
+  margin-top: 5px;
+}
+
+#submit
+{
+  text-align: center;
+}
+
+#login_opt
+{
+  position:relative;
+  padding: 20px;
+}
+
+#login_opt  a
+{
+  display: inline-block;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+#login_opt a:hover
+{
+  color: black;
+  text-decoration: underline;
+}
+
+#ac
+{
+  position:absolute;
+  right: 0;
+}
+
+aside
+{
+  margin-top: 100px;
+  width: 20%;
+  border: 1px solid black;
+  box-shadow: 2px 2px 2px 2px black;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+aside h3,aside h4,#pr_pic
+{
+  margin-top: 0px;
+  text-align: center;
+}
+aside h4
+{
+  margin-bottom: 10px;
+}
+
+aside a
+{
+  text-decoration: none;
+  font-size: 13px;
+  color: white;
+}
+
+aside a:hover
+{
+  color: black;
+}
+
+aside ul
+{
+  margin-left: 15%;
+}
+
+#pr_pic img
+{
+  margin-top: 5px;
+  border-radius: 50%;
+}
+
+article,aside
+{
+  display: inline-block;
+  vertical-align: top;
+}
+article
+{
+  width: 70%;
+}
+
+article #form
+{
+  width: 60%;
+  margin-left: 15%;
+}
+
+hr
+{
+  margin-top: 5%;
+  margin-bottom: 5%;
+  width: 80%;
+}
+
+#acti
+{
+  text-align: center;
+}
+
+#acti a{
+  color: black;
+  text-decoration: none;
+  position: relative;
+}
+
+#acti a::after{
+  content: "";
+  background: white;
+  mix-blend-mode: exclusion;
+  width: calc(100% + 20px);
+  height: 0;
+  position: absolute;
+  bottom: -4px;
+  left: -10px;
+  transition: all .3s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+
+#acti a:hover::after{
+  height: calc(100% + 8px);
+}
+
+
+* {box-sizing: border-box}
+body {margin:0}
+.mySlides {display: none}
+img {vertical-align: middle;}
+
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+/* Caption text */
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+  .prev, .next,.text {font-size: 11px}
+}
+
+#im
+{
+  text-align: center;
+}
+
+#ig
+{
+  border-radius: 10px;
+}
+
+.text
+{
+  margin-top: 5%;
+}
+
+#Events,#Workshops
+{
+  width: 50%;
+  margin: auto;
+  margin-top: 3%;
+  border: 1px solid black;
+  border-radius: 10px;
+  box-shadow: 2px 2px 2px 2px black;
+  background: url("img/back.png") fixed;
+}
+
+#Events h1,#Workshops h1
+{
+  text-align: center;
+}
+
+#activities
+{
+  margin-bottom: 0px;
+  padding-bottom: 10%;
+  background: url("img/back2.png") fixed ;
+}
+
+#council
+{
+  margin: auto;
+  margin-top: 0px;
+  text-align: center;
+  background: url("img/back.png") fixed;
+}
+
+.member
+{
+  display: inline-block;
+  margin-left: 5%;
+  border: 1px solid black;
+  width: 18%;
+  border-radius: 10px;
+  box-shadow: 2px 2px 2px 2px black;
+  background: url("img/back2.png") fixed;
+}
+
+#ex
+{
+  margin-left: 0px;
+}
+
+#council img
+{
+  border-radius: 50%;
+  width:80%;
+  margin-bottom: 5%;
+}
+
+.container {
+  position: relative;
+}
+
+.bimage {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border: 5px black;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  width: 100%;
+  height:0;
+  transition: .5s ease;
+}
+
+.container:hover .overlay {
+  bottom: 0;
+  height: 100%;
+}
+
+.reg
+{
+  display: block;
+  margin: auto;
+  margin-top: 2%;
+}
+
+.text input
+{
+  background-color: inherit;
+  border: none;
+  border-bottom: 1px solid black;
+  width: 40%;
+  margin-bottom: 2%;
+}

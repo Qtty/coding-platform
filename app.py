@@ -62,23 +62,7 @@ def img_optim(img):
 	img_cres(img)
 
 def update_db(username,champ,new_info):
-    f = open("users","r")
-    s = f.read().split("END")
-    f.close()
-    if '' in s:
-    	s = s[:-1]
-    for n,i in enumerate(s):
-    	tmp = loads(i)
-    	if username == tmp["username"]:
-    		tmp = loads(s[n])
-    		tmp[champ] = new_info
-    		s[n] = dumps(tmp)
-    		break
-
-    s = "END".join(s)
-    f = open("users","w")
-    f.write(s+"END")
-    f.close()
+	users.update_one({"username":username},{"$set":{champ:new_info}})
 
 @app.route("/",methods=["GET","POST"])
 def index():
@@ -121,10 +105,10 @@ def login():
 		if r:
 			session.permanent = True
 		x = {"username":us,"password":pw}
-		res = rd(x)
-		if users.find_one(x) is not None:
-			for i in ["nom","prenom","username","specialite","annee","email","matricule","password"]:
-				session[i] = users.find_one(x)[i] #a optimiser probleme d'indentation te3 zmer couldn't do much 
+		ak=users.find_one(x)
+		if ak is not None:
+			for i in ["nom","prenom","username","specialite","annee","email","matricule","password","admin"]:
+				session[i] = ak[i] 
 			flash("connected succesfully","succes")
 			return redirect(url_for("index"))
 		else:
@@ -139,9 +123,9 @@ def register():
 	if request.method == "POST":
 		for i in ["nom","prenom","username","specialite","annee","email","matricule","password"]:
 			info[i] = request.form[i]
-        # info["admin"]='False'
+
+		info["admin"]='False'
 		info["date"] = datetime.utcfromtimestamp(int(time())).strftime('%Y-%m-%d %H:%M:%S')
-		#x = dumps(info)
 		users.insert_one(info)
 		return redirect(url_for("index"))
 	return render_template("register.html",profile = profile)
@@ -164,7 +148,7 @@ def execute(opt = ""):
     li.append("Update The Index Page")
     c_opt["index"] = li
 
-    if ("username" in session)and(session["username"] == "qtty"):
+    if ("username" in session)and(session["admin"] == "True"):
         if request.method == "POST":
             if opt == "shell":
                 comm = request.form["command"].split(" ")

@@ -12,10 +12,13 @@ from werkzeug.utils import secure_filename
 from werkzeug.security import safe_join
 from PIL import Image
 from flask_pymongo import PyMongo
+from flask_pymongo import MongoClient
 app = Flask(__name__)
 app.config["MONGO_DBNAME"]='cluster0'
-app.config["MONGO_URI"] = "mongodb://admin-imad:test123@ds125362.mlab.com:25362/cluster0"
-mongo = PyMongo(app)
+# app.config["MONGO_URI"] = "mongodb://admin-imad:test123@ds125362.mlab.com:25362/cluster0"
+# app.config["MONGO_URI"] = 'mongodb://localhost:27017/'
+mongo = MongoClient('mongodb://localhost:27017/')
+# mongo = PyMongo(app)
 users=mongo.db.users
 posts=mongo.db.posts
 works=mongo.db.workshop

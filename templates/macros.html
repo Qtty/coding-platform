@@ -5,7 +5,7 @@
       <label for="{{ i }}" >{{ i }}:</br></label>
         {% if "Password" in i %}
           {% set t = "password" %}
-        {% elif i == "Remember Me" %}
+        {% elif (i == "Remember Me")or(i == "Confirm Picture Delete") %}
           {% set t = "checkbox" %}
         {% elif "Email" in i %}
           {% set t = "email" %}
@@ -18,6 +18,14 @@
         {% endif %}
         {% if i == "Description" %}
           <textarea name="{{ i|lower }}" {{ required }}></textarea>
+        {% elif i in ["Specialite","annee"] %}
+          {% set choices = {"Specialite":['info','bio', 'ch', 'eln', 'gp', 'auto', 'mi', 'st', 'snv', 'gm', 'geo', 'ph', 'math','custom'],"annee":["l1","l2","l3","m1","m2","dc"]} %}
+          {% set sub_choices = {"Specialite":{'info': 'Informatique', 'bio': 'Biologie', 'ch': 'Chimie', 'eln': 'Electronique', 'gp': 'G\xc3\xa9nie des Proc\xc3\xa9d\xc3\xa9s', 'auto': 'Automatique', 'mi': 'MI', 'st': 'ST', 'snv': 'SNV', 'gm': 'G\xc3\xa9nie M\xc3\xa9canique', 'custom': 'Autres..', 'geo': 'G\xc3\xa9ologie', 'ph': 'T\xc3\xa9lecommunications', 'math': 'Math\xc3\xa9matiques'},"annee":{"l1":"L1","l2":"L2","l3":"L3","m1":"M1","m2":"M2","dc":"Doctorat"}} %}
+          <select name="{{ i|lower }}" >
+            {% for j in choices[i] %}
+              <option value="{{ j }}">{{ sub_choices[i][j] }}</option>
+            {% endfor %}
+          </select>
         {% elif t == "checkbox" %}
           <input type="{{ t }}" name="{{ i|lower }}" />
         {% else %}

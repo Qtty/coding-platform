@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 from flask import Flask,render_template,session,request,flash,redirect,url_for
@@ -111,7 +112,7 @@ def login():
 		ak=users.find_one(x)
 		if ak is not None:
 			for i in ["nom","prenom","username","specialite","annee","email","matricule","password","admin"]:
-				session[i] = ak[i] 
+				session[i] = ak[i]
 			flash("connected succesfully","succes")
 			return redirect(url_for("index"))
 		else:
@@ -190,7 +191,7 @@ def execute(opt = ""):
 		                with open("static/index/{}".format("desc"),"w") as d:
 	                		d.write(dumps(desc))
                 else:
-                    path="./uploads/{}s/{}".format(opt,request.form["title"])					
+                    path="./uploads/{}s/{}".format(opt,request.form["title"])
                     os.mkdir(path)
                     for i in c_opt[opt][:-1]:
                         if "Cover" in i:
@@ -330,6 +331,11 @@ def up_file(filename,fname,foldername):
         abort(404)
     path = safe_join(os.path.join(path,fname))
     return send_from_directory(path, filename)
+@app.route('/challenges/')
+@app.route('/challenges/<opt>')
+def coding_chalenge(opt='index'):
+        if opt =='index':
+            return render_template('challengesIndex.html')
 
 
 @app.context_processor
@@ -372,7 +378,7 @@ def utility_processor():
         elif col == "workshops":
             return works.find_one({"title":query})
     return dict(dbloads=dbloads)
-	
+
 @app.context_processor
 def utility_processor():
     def iterate_db(col,field):
@@ -393,4 +399,3 @@ def utility_processor():
 if __name__=="__main__":
 	port = int(os.environ.get("PORT", 5000))
 	app.run(debug=True,host='0.0.0.0', port=port)
-

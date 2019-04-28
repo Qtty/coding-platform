@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="{{url_for('static',filename="chalengesStyle.css")}}">
+    <!-- Compiled and minified CSS -->
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+  <body>
+    {% block nav%}
+      <nav class="transparent nav-wraper z-depth-0">
+
+        <a href="#" class="sidenav-trigger right" data-target="mobile-links">
+          <i class="material-icons">menu</i>
+        </a>
+          <ul class="right hide-on-med-and-down">
+
+            <li> <a href="#">Home</a></li>
+            <li> <a href="#">Chalenges</a></li>
+            <li> <a href="#">Leadbord</a></li>
+          </ul>
+
+      </nav>
+
+      <ul class="sidenav right" id="mobile-links">
+        <li> <a href="#">Home</a></li>
+        <li> <a href="#">Chalenges</a></li>
+        <li> <a href="#">Leadbord</a></li>
+      </ul>
+      {%endblock%}
+      {%block topContainer%}
+      <div class="topContainer" style="background:url('{{url_for('static',filename="truc.jpg")}}') fixed;background-size: cover;  width: 100%;
+          height: 1044px;">
+
+
+      </div>
+      {%endblock%}
+      <div class="middleContainer">
+        {%block middleContainer%}
+        {%endblock%}
+      </div>
+      <div class="bottomContainer">
+        {%block bottomContainer%}
+        {%endblock%}
+      </div>
+  </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js">
+  </script>
+  <script>
+  var elem = document.querySelector('.sidenav');
+    var instance = new M.Sidenav(elem);
+  </script>
+</html>

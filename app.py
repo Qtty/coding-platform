@@ -371,12 +371,13 @@ def utility_processor():
 		return tmp
 	return dict(jloads=jloads)
 @app.context_processor
+
 def utility_processor():
     def dbloads(col,query):
-        if col== 'posts' :
-            return posts.find_one({"title":query})
-        elif col == "workshops":
-            return works.find_one({"title":query})
+    	if col== 'posts' :
+    		return posts.find_one({"title":query})
+    	elif col == "workshops":
+    		return works.find_one({"title":query})
     return dict(dbloads=dbloads)
 
 @app.context_processor

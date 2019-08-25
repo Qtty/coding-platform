@@ -62,11 +62,13 @@
             <h1>{{ i }}</h1>
             <div id="im"><img src="{{ url_for('uploaded_file',filename='{}/{}/{}.png'.format(o[x],i,i)) }}" width="200px"height="200px" id="ig"/></div>
             {% set d = dbloads(o[x],i) %}
-            {% for j in d %}
-              {% if j != "title" and j != "cover_pictur" and j!="_id" %}
-                <div class="text">{{ d[j] }}</div>
-              {% endif %}
-            {% endfor %}
+            {% if d is not none %}
+              {% for j in d %}
+                {% if j != "title" and j != "cover_pictur" and j!="_id" %}
+                  <div class="text">{{ d[j] }}</div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
             {% if x == "Workshops" %}
             <div class="text" />
               <form action="" method="post">
